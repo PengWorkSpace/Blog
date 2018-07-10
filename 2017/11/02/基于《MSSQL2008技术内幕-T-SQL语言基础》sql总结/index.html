@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="sql server," />
 
 
 
@@ -79,16 +79,30 @@
 
 
 
-<meta name="description" content="也许当我老了，也一样写代码；不为别的，只为了爱好。愿我们依然能在工作之余拥有最朴素的梦想，也愿我们的工作都位高权重责任轻，钱多活少离家近······">
-<meta property="og:type" content="website">
-<meta property="og:title" content="AkonCoder&#39;s  Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="SQL Server的体系结构Sql Server  是我们工作开发当中必不可少的，掌握sql server基础，熟练运用sql，学会sql server的调优成为大多数公司聘用工程师的基本要求，很多公司内部也要求工程师基于现有业务，能够很好的排查慢查询，定位到数据库查询的问题所在，进行索引、查找的优化。为此掌握sql server基础，明白sql server查询的原理和运行机制，可以更加有效的">
+<meta name="keywords" content="sql server">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于《MSSQL2008技术内幕:T-SQL语言基础》sql总结">
+<meta property="og:url" content="http://yoursite.com/2017/11/02/基于《MSSQL2008技术内幕-T-SQL语言基础》sql总结/index.html">
 <meta property="og:site_name" content="AkonCoder&#39;s  Blog">
-<meta property="og:description" content="也许当我老了，也一样写代码；不为别的，只为了爱好。愿我们依然能在工作之余拥有最朴素的梦想，也愿我们的工作都位高权重责任轻，钱多活少离家近······">
+<meta property="og:description" content="SQL Server的体系结构Sql Server  是我们工作开发当中必不可少的，掌握sql server基础，熟练运用sql，学会sql server的调优成为大多数公司聘用工程师的基本要求，很多公司内部也要求工程师基于现有业务，能够很好的排查慢查询，定位到数据库查询的问题所在，进行索引、查找的优化。为此掌握sql server基础，明白sql server查询的原理和运行机制，可以更加有效的">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://oy40mv0rj.bkt.clouddn.com/2017-11-02-sqlserver02.jpg">
+<meta property="og:image" content="http://oy40mv0rj.bkt.clouddn.com/2017-11-02-sqlserver03.png">
+<meta property="og:image" content="http://oy40mv0rj.bkt.clouddn.com/2017-11-02-sqlserver-03.png">
+<meta property="og:image" content="http://oy40mv0rj.bkt.clouddn.com/2017-11-02-sqlserver-04.png">
+<meta property="og:image" content="http://oy40mv0rj.bkt.clouddn.com/sql-join-01.png">
+<meta property="og:image" content="http://oy40mv0rj.bkt.clouddn.com/sql-join-01.png">
+<meta property="og:image" content="http://oy40mv0rj.bkt.clouddn.com/sql-join03.png">
+<meta property="og:image" content="http://oy40mv0rj.bkt.clouddn.com/sal-join04.png">
+<meta property="og:image" content="http://oy40mv0rj.bkt.clouddn.com/sql-join05.png">
+<meta property="og:image" content="http://oy40mv0rj.bkt.clouddn.com/sql-join06.png">
+<meta property="og:image" content="http://oy40mv0rj.bkt.clouddn.com/sql-join07.png">
+<meta property="og:updated_time" content="2018-07-10T17:16:00.958Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AkonCoder&#39;s  Blog">
-<meta name="twitter:description" content="也许当我老了，也一样写代码；不为别的，只为了爱好。愿我们依然能在工作之余拥有最朴素的梦想，也愿我们的工作都位高权重责任轻，钱多活少离家近······">
+<meta name="twitter:title" content="基于《MSSQL2008技术内幕:T-SQL语言基础》sql总结">
+<meta name="twitter:description" content="SQL Server的体系结构Sql Server  是我们工作开发当中必不可少的，掌握sql server基础，熟练运用sql，学会sql server的调优成为大多数公司聘用工程师的基本要求，很多公司内部也要求工程师基于现有业务，能够很好的排查慢查询，定位到数据库查询的问题所在，进行索引、查找的优化。为此掌握sql server基础，明白sql server查询的原理和运行机制，可以更加有效的">
+<meta name="twitter:image" content="http://oy40mv0rj.bkt.clouddn.com/2017-11-02-sqlserver02.jpg">
 
 
 
@@ -118,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/11/02/基于《MSSQL2008技术内幕-T-SQL语言基础》sql总结/"/>
 
 
 
 
 
-  <title>AkonCoder's  Blog</title>
+  <title>基于《MSSQL2008技术内幕:T-SQL语言基础》sql总结 | AkonCoder's  Blog</title>
   
 
 
@@ -143,8 +157,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -281,137 +294,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/10/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="liupeng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://oy40mv0rj.bkt.clouddn.com/head.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AkonCoder's  Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/10/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-10T00:28:49+08:00">
-                2018-07-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
 
   
 
@@ -441,9 +326,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/02/基于《MSSQL2008技术内幕-T-SQL语言基础》sql总结/" itemprop="url">基于《MSSQL2008技术内幕:T-SQL语言基础》sql总结</a></h1>
+          <h1 class="post-title" itemprop="name headline">基于《MSSQL2008技术内幕:T-SQL语言基础》sql总结</h1>
         
 
         <div class="post-meta">
@@ -515,16 +398,70 @@
       
 
       
-        
-          <h4 id="SQL-Server的体系结构"><a href="#SQL-Server的体系结构" class="headerlink" title="SQL Server的体系结构"></a>SQL Server的体系结构</h4><p><strong>Sql Server </strong> 是我们工作开发当中必不可少的，掌握sql server基础，熟练运用sql，学会sql server的调优成为大多数公司聘用工程师的基本要求，很多公司内部也要求工程师基于现有业务，能够很好的排查慢查询，定位到数据库查询的问题所在，进行索引、查找的优化。为此掌握sql server基础，明白sql server查询的原理和运行机制，可以更加有效的帮助我们去解决问题。不管基于自身对sql server的学习，还是公司层面的要求，这本书对于提高自身sql server知识还是挺不错的。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/02/基于《MSSQL2008技术内幕-T-SQL语言基础》sql总结/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+        <h4 id="SQL-Server的体系结构"><a href="#SQL-Server的体系结构" class="headerlink" title="SQL Server的体系结构"></a>SQL Server的体系结构</h4><p><strong>Sql Server </strong> 是我们工作开发当中必不可少的，掌握sql server基础，熟练运用sql，学会sql server的调优成为大多数公司聘用工程师的基本要求，很多公司内部也要求工程师基于现有业务，能够很好的排查慢查询，定位到数据库查询的问题所在，进行索引、查找的优化。为此掌握sql server基础，明白sql server查询的原理和运行机制，可以更加有效的帮助我们去解决问题。不管基于自身对sql server的学习，还是公司层面的要求，这本书对于提高自身sql server知识还是挺不错的。<br><a id="more"></a></p>
+<h5 id="sql-server数据库的组成"><a href="#sql-server数据库的组成" class="headerlink" title="sql server数据库的组成"></a>sql server数据库的组成</h5><p>sql server数据库存储部分，也就是物理组成部分，在物理上由数据文件和事务日志文件组成，每个数据库必须至少有一个数据文件和一个日志文件。可以分为：<br><em>mdf</em><br><em>ldf</em><br><em>ndf</em></p>
+<p><img src="http://oy40mv0rj.bkt.clouddn.com/2017-11-02-sqlserver02.jpg" alt="sql server组成"></p>
+<blockquote>
+<p>其中的.mdf代表Master Data File，.ldf代表Log Data File，而.ndf代表Not Master Data File（非主数据文件）</p>
+</blockquote>
+<h5 id="架构（Schema）和对象"><a href="#架构（Schema）和对象" class="headerlink" title="架构（Schema）和对象"></a>架构（Schema）和对象</h5><p>一个数据库包含多个架构，而每个架构又包括多个对象。可以将架构看作是各种对象的容器，这些对象可以是表（table）、视图（view）、存储过程（stored procedure）等等。<br><img src="http://oy40mv0rj.bkt.clouddn.com/2017-11-02-sqlserver03.png" alt="schema"></p>
+<p>此外，架构也是一个命名空间，用作对象名称的前缀。例如，架设在架构Sales中有一个Orders表，架构限定的对象名称是Sales.Orders。如果在引用对象时省略架构名称，SQL Server将采用一定的办法来分析出架构名称是什么。如果不显示指定架构，那么在解析对象名称时，就会要付出一些没有意义的额外代价。因此，建议都加上架构名称。</p>
+<h4 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h4><h5 id="单表查询"><a href="#单表查询" class="headerlink" title="单表查询"></a>单表查询</h5><p>（1）单表查询很简单，但是很多人不注意的地方就是喜欢用select *<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT  * FROM Sales.Shippers</span><br></pre></td></tr></table></figure></p>
+<p>select * 在表字段较多的时候，会出现性能下降；即使表字段比较少，我们也需要指明查询的具体字段，这样方便别人可以通过sql语句，明白查找的内容。<br>按需所取自己需要用到的字段信息。<br>（2）关于FROM子句：显示指定架构名称<br>　　通过显示指定架构名称，可以保证得到的对象的确是你原来想要的，而且还不必付出任何额外的代价。<br>（3）关于TOP子句：T-SQL独有关键字<br>① 可以使用PERCENT关键字按百分比计算满足条件的行数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT TOP 1 PERCENT orderid, orderdate, custid, empid</span><br><span class="line">FROM Sales.Orders</span><br><span class="line">ORDER BY orderdate DESC;</span><br></pre></td></tr></table></figure></p>
+<p>上面这条SQL就会请求最近更新过的前1%个订单。<br>② 可以使用WITH TIES选项请求返回所有具有相同结果的行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT TOP 5 WITH TIES orderid, orderdate, custid, empid</span><br><span class="line">FROM Sales.Orders</span><br><span class="line">ORDER BY orderdate DESC;</span><br></pre></td></tr></table></figure></p>
+<p>上面这条SQL请求返回与TOP n行中最后一行的排序值相同的其他所有行。<br>（4）关于OVER子句：为行定义一个窗口以便进行特定的运算<br>OVER子句的优点在于能够在返回基本列的同时，在同一行对它们进行聚合；也可以在表达式中混合使用基本列和聚合值列。</p>
+<blockquote>
+<p>例如，下面的查询为OrderValues的每一行计算当前价格占总价格的百分比，以及当前价格占客户总价格的百分比 。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT orderid, custid, val,</span><br><span class="line">100.0 * val / SUM(val) OVER() AS pctall,</span><br><span class="line">100.0 * val / SUM(val) OVER(PARTITION BY custid) AS pctcust</span><br><span class="line">FROM Sales.OrderValues;</span><br></pre></td></tr></table></figure>
+<p>（5）子句的逻辑处理顺序</p>
+<center><br><img src="http://oy40mv0rj.bkt.clouddn.com/2017-11-02-sqlserver-03.png" alt="执行顺序"><br></center>
+
+<p>（6）运算符的优先级</p>
+<center><br><img src="http://oy40mv0rj.bkt.clouddn.com/2017-11-02-sqlserver-04.png" alt="运算优先级"><br></center>
+
+<p>（7）CASE表达式</p>
+<p>① 简单表达式：将一个值与一组可能的取值进行比较，并返回满足第一个匹配的结果；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT productid,productname,categoryid,categoryname=(</span><br><span class="line">    CASE categoryid</span><br><span class="line">        WHEN 1 THEN &apos;Beverages&apos;</span><br><span class="line">        WHEN 2 THEN &apos;Condiments&apos;</span><br><span class="line">        WHEN 3 THEN &apos;Confections&apos;</span><br><span class="line">        WHEN 4 THEN &apos;Dairy Products&apos;</span><br><span class="line">        ELSE &apos;Unkonw Category&apos;</span><br><span class="line">    END)</span><br><span class="line">FROM Production.Products;</span><br></pre></td></tr></table></figure></p>
+<p>② 搜索表达式：将返回结果为TRUE的第一个WHEN逻辑表达式所关联的THEN子句中指定的值。如果没有任何WHEN表达式结果为TRUE，CASE表达式则返回ELSE子句中出现的值。（如果没有指定ELSE，则默认返回NULL）；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT orderid, custid, val, valuecategory=(</span><br><span class="line">  CASE</span><br><span class="line">    WHEN val &lt; 1000.00    THEN &apos;Less than 1000&apos;</span><br><span class="line">    WHEN val BETWEEN 1000.00 AND 3000.00 THEN &apos;Between 1000 and 3000&apos;</span><br><span class="line">    WHEN val &gt; 3000.00    THEN &apos;More than 3000&apos;</span><br><span class="line">    ELSE &apos;Unknown&apos;</span><br><span class="line">  END</span><br><span class="line">)</span><br><span class="line">FROM Sales.OrderValues</span><br></pre></td></tr></table></figure>
+<p>（8）三值谓词逻辑：TRUE、FALSE与UNKNOWN</p>
+<p>SQL支持使用NULL表示缺少的值，它使用的是三值谓词逻辑，代表计算结果可以使TRUE、FALSE与UNKNOWN。在SQL中，对于UNKNOWN和NULL的处理不一致，这就需要我们在编写每一条查询语句时应该明确地注意到正在使用的是三值谓词逻辑。</p>
+<blockquote>
+<p>例如，我们要请求返回region列不等于WA的所有行，则需要在查询过滤条件中显式地增加一个队NULL值得测试：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT custid, country, region, city</span><br><span class="line">FROM Sales.Customers</span><br><span class="line">WHERE region &lt;&gt; N&apos;WA&apos;</span><br><span class="line">OR region IS NULL;</span><br></pre></td></tr></table></figure>
+<p>　　另外，T-SQL对于NULL值得处理是先输出NULL值再输出非NULL值得顺序，如果想要先输出非NULL值，则需要改变一下排序条件，例如下面的请求：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select custid, region</span><br><span class="line">from sales.Customers</span><br><span class="line">order by (case</span><br><span class="line">when region is null then 1 else 0</span><br><span class="line">end), region;</span><br></pre></td></tr></table></figure></p>
+<p>　　当region列为NULL时返回1，否则返回0。非NULL值得表达式返回值为0，因此，它们会排在NULL值（表达式返回1）的前面。如上所示的将CASE表达式作为第一个拍序列，并把region列指定为第二个拍序列。这样，非NULL值也可以正确地参与排序，是一个完整解决方案的查询。</p>
+<p>（9）LIKE谓词的花式用法</p>
+<p>① %（百分号）通配符<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT empid, lastname</span><br><span class="line">FROM HR.Employees</span><br><span class="line">WHERE lastname LIKE N&apos;D%&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>② _（下划线）通配符：下划线代表任意单个字符</p>
+<p>下面请求返回lastname第二个字符为e的所有员工<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT empid, lastname</span><br><span class="line">FROM HR.Employees</span><br><span class="line">WHERE lastname LIKE N&apos;_e%&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>③ [&lt;字符列&gt;]通配符：必须匹配指定字符中的一个字符</p>
+<p>　下面请求返回lastname以字符A、B、C开头的所有员工<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT empid, lastname</span><br><span class="line">FROM HR.Employees</span><br><span class="line">WHERE lastname LIKE N&apos;[ABC]%&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>④  [&lt;字符-字符&gt;]通配符：必须匹配指定范围内中的一个字符</p>
+<p>　　下面请求返回lastname以字符A到E开头的所有员工：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT empid, lastname</span><br><span class="line">FROM HR.Employees</span><br><span class="line">WHERE lastname LIKE N&apos;[A-E]%&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>⑤ [^&lt;字符-字符&gt;]通配符：不属于特定字符序列或范围内的任意单个字符</p>
+<p>　　下面请求返回lastname不以A到E开头的所有员工：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT empid, lastname</span><br><span class="line">FROM HR.Employees</span><br><span class="line">WHERE lastname LIKE N&apos;[^A-E]%&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>⑥ ESCAPE转义字符</p>
+<p>　　如果搜索包含特殊通配符的字符串（例如’%’,’_’,’[‘、’]’等），则必须使用转移字符。下面检查lastname列是否包含下划线：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT empid, lastname</span><br><span class="line">FROM HR.Employees</span><br><span class="line">WHERE lastname LIKE N&apos;%!_%&apos; ESCAPE &apos;!&apos;;</span><br></pre></td></tr></table></figure>
+<p>（10）两种转换值的函数：CAST和CONVERT</p>
+<p>　　CAST和CONVERT都用于转换值的数据类型。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT CAST(SYSDATETIME() AS DATE);</span><br><span class="line">SELECT CONVERT(CHAR(8),CURRENT_TIMESTAMP,112);</span><br></pre></td></tr></table></figure></p>
+<h5 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h5><p>数据库数据：<br>book表<br><img src="http://oy40mv0rj.bkt.clouddn.com/sql-join-01.png" alt="book表"><br>stu表<br> <img src="http://oy40mv0rj.bkt.clouddn.com/sql-join-01.png" alt="book表"></p>
+<h6 id="内连接"><a href="#内连接" class="headerlink" title="内连接"></a>内连接</h6><p>1.1.等值连接：在连接条件中使用等于号(=)运算符比较被连接列的列值，其查询结果中列出被连接表中的所有列，包括其中的重复列。</p>
+<p>1.2.不等值连接：在连接条件使用除等于运算符以外的其它比较运算符比较被连接的列的列值。这些运算符包括&gt;、&gt;=、&lt;=、&lt;、!&gt;、!&lt;和&lt;&gt;。</p>
+<p>1.3.自然连接：在连接条件中使用等于(=)运算符比较被连接列的列值，但它使用选择列表指出查询结果集合中所包括的列，并删除连接表中的重复列。</p>
+<p>内连接：内连接查询操作列出与连接条件匹配的数据行，它使用比较运算符比较被连接列的列值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select * from book as a,stu as b where a.sutid = b.stuid</span><br><span class="line"></span><br><span class="line">select * from book as a inner join stu as b on a.sutid = b.stuid</span><br></pre></td></tr></table></figure></p>
+<p>内连接可以使用上面两种方式，其中第二种方式的inner可以省略。</p>
+<p><img src="http://oy40mv0rj.bkt.clouddn.com/sql-join03.png" alt=""><br>其连接结果如上图，是按照a.stuid = b.stuid进行连接。</p>
+<h6 id="外连接"><a href="#外连接" class="headerlink" title="外连接"></a>外连接</h6><p>2.1.左联接：是以左表为基准，将a.stuid = b.stuid的数据进行连接，然后将左表没有的对应项显示，右表的列为NULL<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from book as a left join stu as b on a.sutid = b.stuid</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://oy40mv0rj.bkt.clouddn.com/sal-join04.png" alt=""><br>2.2.右连接：是以右表为基准，将a.stuid = b.stuid的数据进行连接，然以将右表没有的对应项显示，左表的列为NULL<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from book as a right join stu as b on a.sutid = b.stuid</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://oy40mv0rj.bkt.clouddn.com/sql-join05.png" alt=""></p>
+<p>2.3.全连接：完整外部联接返回左表和右表中的所有行。当某行在另一个表中没有匹配行时，则另一个表的选择列表列包含空值。如果表之间有匹配行，则整个结果集行包含基表的数据值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from book as a full outer join stu as b on a.sutid = b.stuid</span><br></pre></td></tr></table></figure></p>
+<p> <img src="http://oy40mv0rj.bkt.clouddn.com/sql-join06.png" alt=""></p>
+<h6 id="交叉连接"><a href="#交叉连接" class="headerlink" title="交叉连接"></a>交叉连接</h6><p>交叉连接：交叉联接返回左表中的所有行，左表中的每一行与右表中的所有行组合。交叉联接也称作笛卡尔积。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from book as a cross join stu as b order by a.id</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://oy40mv0rj.bkt.clouddn.com/sql-join07.png" alt=""></p>
+
       
     </div>
     
@@ -539,14 +476,36 @@
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/sql-server/" rel="tag"># sql server</a>
+          
+        </div>
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/10/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </footer>
   </div>
@@ -556,10 +515,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -567,6 +527,15 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTQ3Ny84MDQx"></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -587,8 +556,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -680,6 +658,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#SQL-Server的体系结构"><span class="nav-number">1.</span> <span class="nav-text">SQL Server的体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#sql-server数据库的组成"><span class="nav-number">1.1.</span> <span class="nav-text">sql server数据库的组成</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#架构（Schema）和对象"><span class="nav-number">1.2.</span> <span class="nav-text">架构（Schema）和对象</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询"><span class="nav-number">2.</span> <span class="nav-text">查询</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#单表查询"><span class="nav-number">2.1.</span> <span class="nav-text">单表查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#连接查询"><span class="nav-number">2.2.</span> <span class="nav-text">连接查询</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#内连接"><span class="nav-number">2.2.1.</span> <span class="nav-text">内连接</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#外连接"><span class="nav-number">2.2.2.</span> <span class="nav-text">外连接</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#交叉连接"><span class="nav-number">2.2.3.</span> <span class="nav-text">交叉连接</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -813,6 +807,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -841,6 +839,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
